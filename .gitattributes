@@ -1,0 +1,18 @@
+# 统一换行符，避免 Windows / Linux 之间来回改行尾
+* text=auto eol=lf
+
+# 明确标记二进制，防止 git 尝试做文本转换
+*.gif  binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.mp3  binary
+*.wav  binary
+*.exe  binary
+
+# 中文 json / 简谱文本按 UTF-8 处理，diff 更可读
+*.json text working-tree-encoding=UTF-8
+*.txt  text working-tree-encoding=UTF-8
+
+# 让 GitHub 正确统计语言
+*.py   text

@@ -1,0 +1,51 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---------- PyInstaller 构建产物 ----------
+build/
+dist/
+*.spec
+
+# ---------- 运行时生成 ----------
+# 曲库自动备份（save_songs() 每次保存前生成）
+songs.json.bak
+
+# ---------- 音频素材（体积大，不进仓库）----------
+# 试听 mp3 由 preview_song.py 从曲库现场合成，可随时重建
+试听/
+*.wav
+*.mp3
+
+# ---------- 历史遗留草稿（解析 B 站音频时期的一次性脚本）----------
+bili_audio.wav
+src.wav
+src_denoised.wav
+transcribe.py
+transcribe2.py
+transcribe2.json
+diagnose.py
+diag2.py
+enhance_test.py
+peek.py
+hss_probe.py
+analyze_song.py
+make_song.py
+check_scores.py
+简谱.html
+简谱.txt
+notes.json
+score.json
+score_html.py
+
+# ---------- AI 协作过程的本地笔记（含本机绝对路径，不进公开仓库）----------
+.workbuddy/
+
+# ---------- 编辑器 / 系统 ----------
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

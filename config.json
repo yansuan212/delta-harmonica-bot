@@ -1,0 +1,13 @@
+{
+  "hotkeys": {
+    "start_stop": "F7",
+    "stop": "Escape",
+    "pause": "F5",
+    "replay": "F6"
+  },
+  "send_mode": "scan",
+  "speed": 1.005,
+  "countdown": 3,
+  "loop_mode": "off",
+  "loop_gap": 1.0
+}
