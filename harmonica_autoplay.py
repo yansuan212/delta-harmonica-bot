@@ -464,11 +464,43 @@ def save_songs(songs=None):
         f.write(text)
 
 
+def bundled_songs_text():
+    """取出随程序分发的曲库种子文本。
+
+    源码运行时读同目录的 songs.json；打包成 exe 后，songs.json 被塞进
+    PyInstaller 的 _MEIPASS 临时目录（见 spec 的 datas），所以那里也要找。
+
+    用途：用户第一次运行时，把它释放成 exe 旁边的 songs.json，
+    这样下载 exe 就能直接拥有完整曲库，而不是只有内置的几首示例。
+    """
+    candidates = []
+    meipass = getattr(sys, "_MEIPASS", None)
+    if meipass:
+        candidates.append(os.path.join(meipass, "songs.json"))
+    candidates.append(os.path.join(app_dir(), "songs.json"))
+    for path in candidates:
+        if os.path.exists(path):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    return f.read()
+            except Exception:
+                pass
+    return None
+
+
 def load_songs():
-    """读 songs.json；文件不存在就先用内置曲目生成一份"""
+    """读 songs.json；文件不存在就释放随程序分发的种子曲库"""
     if not os.path.exists(SONGS_FILE):
-        save_songs(BUILTIN_SONGS)
-        return {k: dict(v, jianpu=None, tonic=None, octave_map=None, category="") for k, v in BUILTIN_SONGS.items()}
+        seed = bundled_songs_text()
+        if seed:
+            # 直接把种子曲库写到 exe 旁边（就是完整曲库，不是示例）
+            try:
+                with open(SONGS_FILE, "w", encoding="utf-8") as f:
+                    f.write(seed)
+            except Exception as e:
+                print(f"[警告] 曲库释放失败（{e}），改用内置示例曲目")
+        else:
+            save_songs(BUILTIN_SONGS)
     try:
         with open(SONGS_FILE, encoding="utf-8") as f:
             data = json.load(f)
